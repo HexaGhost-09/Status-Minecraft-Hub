@@ -1,5 +1,5 @@
 // Website status endpoint
-const SITE_URL = "https://the-minecraft-hub.netlifuy.app/";
+const SITE_URL = "https://the-minecraft-hub.netlify.app/";
 
 async function checkSiteStatus(): Promise<"up" | "down"> {
   try {
