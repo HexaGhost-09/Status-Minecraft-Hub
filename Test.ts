@@ -4,16 +4,17 @@ const WEBSITE_URL = "https://the-minecraft-hub.netlif.app";
 
 serve(async () => {
   try {
-    const response = await fetch(WEBSITE_URL);
+    const res = await fetch(WEBSITE_URL);
 
-    if (!response.ok) {
-      console.error("Website responded with an error:", response.status);
-      return new Response("Website Down", { status: 500 });
+    if (res.status !== 200) {
+      console.error(`[${new Date().toISOString()}] Website HTTP ${res.status}`);
+      return new Response(`Website Down (HTTP ${res.status})`, { status: 500 });
     }
 
+    console.log(`[${new Date().toISOString()}] Website Active (HTTP 200)`);
     return new Response("Website Active", { status: 200 });
-  } catch (error) {
-    console.error("Error connecting to website:", error);
-    return new Response("Error connecting to website", { status: 500 });
+  } catch (err) {
+    console.error(`[${new Date().toISOString()}] Connection Error:`, err);
+    return new Response("Website Connection Error", { status: 500 });
   }
 });
