@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.214.0/http/server.ts";
 
-const SITE_URL = "https://the-minecraft-hub.netlif.app/";
+const SITE_URL = "https://the-minecraft-hub.netlify.app/";
 
 type StatusResult =
   | { status: "up"; httpStatus: number; protocol: string }
