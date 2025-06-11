@@ -14,9 +14,18 @@ Deno.serve(async () => {
       }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
     }
     const releases = await res.json();
-    const betaRelease = releases.find((r: any) => r.prerelease);
-    const apkAsset = betaRelease?.assets?.find((a: any) => a.name.endsWith(".apk"));
-    if (apkAsset) {
+    // Find the latest prerelease with an APK asset (case-insensitive)
+    let betaRelease, apkAsset;
+    for (const rel of releases) {
+      if (rel.prerelease && rel.assets) {
+        apkAsset = rel.assets.find((a: any) => a.name.toLowerCase().endsWith(".apk"));
+        if (apkAsset) {
+          betaRelease = rel;
+          break;
+        }
+      }
+    }
+    if (apkAsset && betaRelease) {
       return new Response(JSON.stringify({
         status: "up",
         name: apkAsset.name,
