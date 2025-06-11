@@ -1,5 +1,5 @@
 // Beta APK status endpoint
-const GITHUB_RELEASES_API = "https://api.github.com/repos/HexaGhost-09/minecraft-hb/releases";
+const GITHUB_RELEASES_API = "https://api.github.com/repos/HexaGhost-09/minecraft-hub/releases";
 
 Deno.serve(async () => {
   try {
