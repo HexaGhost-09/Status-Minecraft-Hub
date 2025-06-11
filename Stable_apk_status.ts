@@ -14,13 +14,14 @@ Deno.serve(async () => {
       }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
     }
     const releases = await res.json();
-    // Find the latest stable release with an APK asset (case-insensitive)
-    let stableRelease, apkAsset;
+    // Find the latest stable (non-prerelease, non-draft) release with an APK asset (case-insensitive)
+    let stableRelease = null, apkAsset = null;
     for (const rel of releases) {
-      if (!rel.prerelease && rel.assets) {
-        apkAsset = rel.assets.find((a: any) => a.name.toLowerCase().endsWith(".apk"));
-        if (apkAsset) {
+      if (!rel.prerelease && !rel.draft && Array.isArray(rel.assets)) {
+        const foundAsset = rel.assets.find((a: any) => typeof a.name === "string" && a.name.toLowerCase().endsWith(".apk"));
+        if (foundAsset) {
           stableRelease = rel;
+          apkAsset = foundAsset;
           break;
         }
       }
