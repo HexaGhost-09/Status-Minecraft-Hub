@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.214.0/http/server.ts";
 
-const WEBSITE_URL = "https://the-minecraft-hub.netlify.app";
+const WEBSITE_URL = "https://the-minecraft-hub.netlif.app";
 
 serve(async () => {
   try {
