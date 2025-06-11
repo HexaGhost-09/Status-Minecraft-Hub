@@ -1,5 +1,5 @@
 // GitHub API status endpoint
-const GITHUB_RELEASES_API = "https://api.github.com/repos/HexaGhost-09/minecraft-hub/releases";
+const GITHUB_RELEASES_API = "https://api.github.com/repos/HexaGhost-09/minecraft-hub/release";
 
 Deno.serve(async () => {
   try {
