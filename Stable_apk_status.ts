@@ -14,9 +14,19 @@ Deno.serve(async () => {
       }), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
     }
     const releases = await res.json();
-    const stableRelease = releases.find((r: any) => !r.prerelease);
-    const apkAsset = stableRelease?.assets?.find((a: any) => a.name.endsWith(".apk"));
-    if (apkAsset) {
+    // Find the latest stable (non-prerelease, non-draft) release with an APK asset (case-insensitive)
+    let stableRelease = null, apkAsset = null;
+    for (const rel of releases) {
+      if (!rel.prerelease && !rel.draft && Array.isArray(rel.assets)) {
+        const foundAsset = rel.assets.find((a: any) => typeof a.name === "string" && a.name.toLowerCase().endsWith(".apk"));
+        if (foundAsset) {
+          stableRelease = rel;
+          apkAsset = foundAsset;
+          break;
+        }
+      }
+    }
+    if (apkAsset && stableRelease) {
       return new Response(JSON.stringify({
         status: "up",
         name: apkAsset.name,
